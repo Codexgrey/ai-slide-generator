@@ -11,6 +11,14 @@
 # next.js
 /.next/
 /out/
+.env
+dist/
+.cache/
+
+# Docker
+docker-compose.override.yml
+docker-data/
+*.local
 
 # production
 /build
@@ -34,3 +42,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
