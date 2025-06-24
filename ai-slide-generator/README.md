@@ -4,13 +4,12 @@
 git clone <repo>
 cp .env.example .env.local
 docker compose -f docker-compose.dev.yml up --build
-
+```
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
-
-First, run the development server:
+**First, run the development server (locally)**
 
 ```bash
 npm run dev
@@ -21,6 +20,25 @@ pnpm dev
 # or
 bun dev
 ```
+
+
+**Run the development server (Docker)**
+
+```bash
+# Run Project
+$ docker compose -f docker-compose.dev.yml up
+
+# check all containers are running
+$ docker compose -f docker-compose.dev.yml ps
+
+# Stop project
+$ docker compose -f docker-compose.dev.yml stop ; for a couple hour
+$ docker compose -f docker-compose.dev.yml down ; for a few days/month
+
+# Restart Project
+$ docker compose -f docker-compose.dev.yml up -d
+```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
