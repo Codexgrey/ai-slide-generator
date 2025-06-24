@@ -16,5 +16,8 @@ COPY . .
 # Expose Next.js dev port
 EXPOSE 3000
 
+# Run Prisma generate inside the image during build
+RUN npx prisma generate
+
 # Run dev server
 CMD ["npm", "run", "dev"]

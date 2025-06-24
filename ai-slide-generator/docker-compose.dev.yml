@@ -12,9 +12,13 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+    env_file:
+      - .env
     depends_on:
-      - database
-      - redis
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   database:
     image: postgres:15-alpine
@@ -26,6 +30,11 @@ services:
       - POSTGRES_PASSWORD=dev_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7-alpine
@@ -33,6 +42,24 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+
+  studio:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npx", "prisma", "studio"]
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
+    ports:
+      - "5555:5555"
+    volumes:
+      - .:/app
+      - /app/node_modules
 
 volumes:
   postgres_data:
