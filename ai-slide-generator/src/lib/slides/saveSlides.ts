@@ -1,7 +1,7 @@
 // src/lib/slides/saveSlides.ts
 import { prisma } from '@/lib/prisma'
 
-type SlideInput = {
+export type SlideInput = {
   title: string
   content: string[]
   imageUrl?: string
@@ -41,3 +41,4 @@ export async function savePresentationToDB(data: SaveInput) {
     throw error
   }
 }
+
