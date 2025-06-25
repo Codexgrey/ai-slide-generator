@@ -18,7 +18,7 @@ export async function fetchImageFromPrompt(prompt: string): Promise<string | und
     const imageUrl = data.results?.[0]?.urls?.regular ?? null;
     return imageUrl;
   } catch (err) {
-    console.error(`🖼️ Failed to fetch image for prompt "${prompt}":`, err);
-    return undefined;
+        console.error(`Failed to fetch image for prompt "${prompt}":`, err);
+        return undefined;
   }
 }

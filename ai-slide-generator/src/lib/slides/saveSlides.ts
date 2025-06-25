@@ -16,8 +16,7 @@ type SaveInput = {
 
 export async function savePresentationToDB(data: SaveInput) {
   try {
-    console.log('🧪 Incoming data to save:', data)
-
+    // console.log('Incoming data to save:', data)
     const presentation = await prisma.presentation.create({
       data: {
         title: data.title,
@@ -34,10 +33,10 @@ export async function savePresentationToDB(data: SaveInput) {
       },
     })
 
-    console.log('✅ Saved presentation:', presentation)
+    console.log('Saved presentation:', presentation)
     return presentation
   } catch (error) {
-    console.error('❌ Error in savePresentationToDB:', error)
+    console.error('Error in savePresentationToDB:', error)
     throw error
   }
 }
