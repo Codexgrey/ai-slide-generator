@@ -2,6 +2,8 @@ import { generateSlidesWithAI } from '@/lib/ai/generateSlidesWithAI';
 import { fetchImageFromPrompt } from '@/lib/images/fetchImageFromPrompt';
 import { savePresentationToDB } from '@/lib/slides/saveSlides';
 import type { SlideInput } from '@/lib/slides/saveSlides';
+import { validateSlides } from '@/lib/slides/validateSlides';
+
 
 export async function POST(req: Request) {
     const body = await req.json();
@@ -42,11 +44,16 @@ export async function POST(req: Request) {
             })
         );
 
+        // validate slides: only save valid (well-structured) slides
+        const validatedSlides = validateSlides(processedSlides);
+        if (validatedSlides.length === 0) {
+            return new Response(JSON.stringify({ error: 'Invalid slide data' }), { status: 400 });
+        }
 
         const saved = await savePresentationToDB({
             title: topic,
             description: `Auto-generated on ${new Date().toLocaleDateString()}`,
-            slides: processedSlides,
+            slides: validatedSlides,
         });
 
         return new Response(JSON.stringify(saved), { status: 200 });
