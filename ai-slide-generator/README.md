@@ -40,8 +40,8 @@ $ docker compose -f docker-compose.dev.yml up -d
 ```
 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the App.
-Open [http://localhost:5555](http://localhost:5555) with your browser to see the Database (Tables).
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the App.
+- Open [http://localhost:5555](http://localhost:5555) with your browser to see the Database (Tables).
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
