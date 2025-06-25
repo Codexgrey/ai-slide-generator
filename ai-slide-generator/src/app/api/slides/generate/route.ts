@@ -30,7 +30,7 @@ export async function POST(req: Request) {
             (aiSlides as AISlide[]).map(async (slide): Promise<SlideInput> => {
                 const imageUrl =
                 includeImages && slide.imagePrompt
-                    ? await fetchImageFromPrompt(slide.imagePrompt) ?? undefined // ✅ null-safe
+                    ? await fetchImageFromPrompt(slide.imagePrompt) ?? undefined
                     : undefined;
 
                 return {
