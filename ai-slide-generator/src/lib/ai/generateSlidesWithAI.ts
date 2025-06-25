@@ -32,7 +32,7 @@ export async function generateSlidesWithAI({
             Return ONLY a JSON array of slides. No explanation or intro.
         `;
 
-    console.log('Calling OpenAI with model: gpt-3.5-turbo');
+    // console.log('Calling OpenAI with model: gpt-3.5-turbo');
     const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: prompt }],
