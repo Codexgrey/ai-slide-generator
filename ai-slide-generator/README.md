@@ -2,6 +2,7 @@
 
 ```bash
 git clone <repo>
+cd ai-slide-generator 
 cp .env.example .env.local
 docker compose -f docker-compose.dev.yml up --build
 ```
