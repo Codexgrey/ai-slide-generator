@@ -1,4 +1,4 @@
-// src/lib/slides/saveSlides.ts
+
 import { prisma } from '@/lib/prisma'
 
 export type SlideInput = {

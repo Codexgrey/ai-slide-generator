@@ -1,4 +1,5 @@
 import openai from './openaiClient';
+import type { SlideInput } from '@/lib/slides/saveSlides';
 
 interface GenerateSlidesInput {
   topic: string;
@@ -12,7 +13,7 @@ export async function generateSlidesWithAI({
     numSlides,
     includeImages = false,
     theme = 'default',
-    }: GenerateSlidesInput) {
+    }: GenerateSlidesInput): Promise<SlideInput[]>  {
         const prompt = `
             You are an expert presentation assistant. Generate a ${numSlides}-slide presentation on the topic: "${topic}".
 
@@ -39,12 +40,13 @@ export async function generateSlidesWithAI({
         temperature: 0.7,
     });
 
-    const raw = response.choices[0].message.content;
+    const raw = response.choices?.[0]?.message?.content ?? '';
 
     try {
         const slides = JSON.parse(raw || '[]');
         return slides;
     } catch {
+        console.error('❌ Failed to parse AI response:', raw);
         throw new Error('Invalid JSON from AI response');
     }
 }

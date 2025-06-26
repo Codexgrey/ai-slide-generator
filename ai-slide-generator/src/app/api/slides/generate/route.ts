@@ -46,6 +46,8 @@ export async function POST(req: Request) {
 
         // validate slides: only save valid (well-structured) slides
         const validatedSlides = validateSlides(processedSlides);
+            // console.log('🧪 Validated Slides:', validatedSlides);
+
         if (validatedSlides.length === 0) {
             return new Response(JSON.stringify({ error: 'Invalid slide data' }), { status: 400 });
         }
