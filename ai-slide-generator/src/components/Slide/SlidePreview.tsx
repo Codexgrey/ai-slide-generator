@@ -12,13 +12,15 @@ export default function SlidePreview() {
 
     return (
         <section className="space-y-6">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
-            Preview Slides
-        </h3>
-
-        {slides.map((slide) => (
-            <SlideRenderer key={slide.id} slide={slide} />
-        ))}
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                Preview Slides
+            </h3>
+            <div className="grid md:grid-cols-2 gap-6">
+                {slides.map((slide, index) => (
+                <SlideRenderer key={slide.id} slide={slide} index={index} />
+                ))}
+            </div>
         </section>
     );
 }
+
