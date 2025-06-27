@@ -25,7 +25,7 @@ export default function OptionsPanel({
 
     return (
         <div className="flex flex-col md:flex-row justify-between items-end gap-4">
-            {/* Slide Count */}
+            {/* slide count */}
             <div className="md:w-[30%] w-full">
                 <label className="block text-center font-medium text-sm mb-1 text-gray-700 dark:text-gray-300">
                     Slide Count
@@ -49,7 +49,7 @@ export default function OptionsPanel({
                 </div>
             </div>
 
-            {/* Include Images */}
+            {/* include images */}
             <div className="md:w-[18%] w-full">
                 <label className="block text-center font-medium text-sm mb-1 text-gray-700 dark:text-gray-300">
                     Include Images
@@ -65,7 +65,7 @@ export default function OptionsPanel({
                 </select>
             </div>
 
-            {/* Presentation Style */}
+            {/* presentation style */}
             <div className="md:w-[30%] w-full">
                 <label className="block text-center font-medium text-sm mb-1 text-gray-700 dark:text-gray-300">
                     Presentation Style
