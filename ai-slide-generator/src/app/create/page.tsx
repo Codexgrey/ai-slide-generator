@@ -37,7 +37,7 @@ export default function CreatePage() {
           style={style}
           setStyle={setStyle}
         />
-        <div className="text-center">
+        <div className="text-center space-y-6">
           <GenerateButton
             loading={loading}
             input={input}

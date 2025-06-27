@@ -10,14 +10,14 @@ export default function SlidePreview() {
 
     if (!slides.length) return null;
 
-    return (
+   return (
         <section className="space-y-6">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-                Preview Slides
-            </h3>
             <div className="grid md:grid-cols-2 gap-6">
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white col-span-full text-left pl-1">
+                    Preview Slides
+                </h3>
                 {slides.map((slide, index) => (
-                <SlideRenderer key={slide.id} slide={slide} index={index} />
+                    <SlideRenderer key={slide.id} slide={slide} index={index} />
                 ))}
             </div>
         </section>

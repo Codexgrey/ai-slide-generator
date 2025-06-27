@@ -12,7 +12,9 @@ interface Props {
 export default function SlideRenderer({ slide, index }: Props) {
     return (
         <div className="p-4 rounded-xl border bg-white dark:bg-gray-800 border-gray-200 
-            dark:border-gray-700 shadow-md flex flex-col justify-between">
+            dark:border-gray-700 shadow-md flex flex-col justify-between hover:shadow-lg 
+            transition-transform duration-300 transform hover:-translate-y-1">
+
             <div>
                 <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
                     {index !== undefined ? `Slide ${index + 1}: ` : ""}{slide.title}
