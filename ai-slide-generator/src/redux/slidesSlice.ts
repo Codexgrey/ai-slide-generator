@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 
 interface Slide {
   id: string
@@ -20,6 +20,37 @@ const initialState: SlidesState = {
   isGenerating: false,
 }
 
+interface GenerateSlidesParams {
+  input: string;
+  slideCount: number;
+  includeImages: boolean;
+  style: string;
+}
+
+export const generateSlides = createAsyncThunk<Slide[], GenerateSlidesParams>(
+  'slides/generateSlides',
+  async (params, thunkAPI) => {
+    try {
+      const res = await fetch('/api/slides/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params),
+      });
+
+      if (!res.ok) throw new Error('Failed to generate slides');
+
+      const data = await res.json();
+      return data.slides as Slide[];
+    } catch (err: unknown) {
+      let message = 'An error occurred';
+      if (err instanceof Error) {
+        message = err.message;
+      }
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const slidesSlice = createSlice({
   name: 'slides',
   initialState,
@@ -38,6 +69,20 @@ const slidesSlice = createSlice({
       state.slides = []
       state.activeSlideIndex = 0
     },
+  },
+  
+  extraReducers: (builder) => {
+    builder
+      .addCase(generateSlides.pending, (state) => {
+        state.isGenerating = true;
+      })
+      .addCase(generateSlides.fulfilled, (state, action) => {
+        state.slides = action.payload;
+        state.isGenerating = false;
+      })
+      .addCase(generateSlides.rejected, (state) => {
+        state.isGenerating = false;
+      });
   },
 })
 
