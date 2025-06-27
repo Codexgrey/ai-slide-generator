@@ -20,9 +20,9 @@ export default function GenerateButton({
     slideCount,
     includeImages,
     style,
+
 }: Props) {
     const dispatch = useDispatch<AppDispatch>();
-    
     const handleClick = async () => {
         try {
             dispatch(setError(null));
@@ -30,10 +30,10 @@ export default function GenerateButton({
 
             await dispatch(
                 generateSlides({
-                input,
-                slideCount,
-                includeImages,
-                style,
+                    input,
+                    slideCount,
+                    includeImages,
+                    style,
                 })
             );
 
@@ -45,12 +45,15 @@ export default function GenerateButton({
     };
 
     return (
-        <button
-        onClick={handleClick}
-        disabled={loading}
-        className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-            {loading ? "Generating..." : "Generate Slides"}
-        </button>
+        <div className="flex justify-center">
+            <button
+                onClick={handleClick}
+                disabled={loading}
+                className="w-[30%] h-[44px] px-6 bg-blue-600 text-white text-sm font-semibold 
+                rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                {loading ? "Generating..." : "Generate Slides"}
+            </button>
+        </div>
     );
 }

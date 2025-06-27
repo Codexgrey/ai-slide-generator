@@ -17,73 +17,72 @@ export default function OptionsPanel({
     setIncludeImages,
     style,
     setStyle,
+
 }: Props) {
     const handleSlideChange = (delta: number) => {
         setSlideCount(Math.max(1, Math.min(slideCount + delta, 20)));
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Slide Count */}
-        <div>
-            <label className="block font-medium mb-1">Number of Slides</label>
-            <div className="flex items-center gap-2">
-            <button
-                onClick={() => handleSlideChange(-1)}
-                className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-            >
-                -
-            </button>
-            <span className="text-lg font-semibold">{slideCount}</span>
-            <button
-                onClick={() => handleSlideChange(1)}
-                className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-            >
-                +
-            </button>
+        <div className="flex flex-col md:flex-row justify-between items-end gap-4">
+            {/* Slide Count */}
+            <div className="md:w-[30%] w-full">
+                <label className="block text-center font-medium text-sm mb-1 text-gray-700 dark:text-gray-300">
+                    Slide Count
+                </label>
+                <div className="flex border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden h-[44px]">
+                    <button
+                        onClick={() => handleSlideChange(-1)}
+                        className="w-1/4 px-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-lg font-bold"
+                    >
+                        -
+                    </button>
+                    <div className="w-1/2 flex items-center justify-center bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                        {slideCount}
+                    </div>
+                    <button
+                        onClick={() => handleSlideChange(1)}
+                        className="w-1/4 px-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-lg font-bold"
+                    >
+                        +
+                    </button>
+                </div>
             </div>
-        </div>
 
-        {/* Image Toggle */}
-        <div>
-            <label className="block font-medium mb-1">Include Images</label>
-            <div className="flex gap-4 items-center">
-            <label className="flex items-center gap-1">
-                <input
-                type="radio"
-                name="images"
-                checked={includeImages}
-                onChange={() => setIncludeImages(true)}
-                />
-                Yes
-            </label>
-            <label className="flex items-center gap-1">
-                <input
-                type="radio"
-                name="images"
-                checked={!includeImages}
-                onChange={() => setIncludeImages(false)}
-                />
-                No
-            </label>
+            {/* Include Images */}
+            <div className="md:w-[18%] w-full">
+                <label className="block text-center font-medium text-sm mb-1 text-gray-700 dark:text-gray-300">
+                    Include Images
+                </label>
+                <select
+                    value={includeImages ? "yes" : "no"}
+                    onChange={(e) => setIncludeImages(e.target.value === "yes")}
+                    className="w-full h-[44px] px-3 py-2 border border-gray-300 dark:border-gray-700 
+                    rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                >
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
             </div>
-        </div>
 
-        {/* Theme Selector */}
-        <div>
-            <label className="block font-medium mb-1">Presentation Style</label>
-            <select
-            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
-            value={style}
-            onChange={(e) => setStyle(e.target.value)}
-            >
-            <option value="professional">Professional</option>
-            <option value="tech">Tech</option>
-            <option value="education">Education</option>
-            <option value="creative">Creative</option>
-            <option value="business">Business</option>
-            </select>
-        </div>
+            {/* Presentation Style */}
+            <div className="md:w-[30%] w-full">
+                <label className="block text-center font-medium text-sm mb-1 text-gray-700 dark:text-gray-300">
+                    Presentation Style
+                </label>
+                <select
+                    value={style}
+                    onChange={(e) => setStyle(e.target.value)}
+                    className="w-full h-[44px] px-3 py-2 border border-gray-300 dark:border-gray-700 
+                    rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+                >
+                    <option value="professional">Professional</option>
+                    <option value="tech">Tech</option>
+                    <option value="education">Education</option>
+                    <option value="creative">Creative</option>
+                    <option value="business">Business</option>
+                </select>
+            </div>
         </div>
     );
 }
