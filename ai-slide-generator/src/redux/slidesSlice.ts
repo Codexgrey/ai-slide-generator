@@ -21,10 +21,10 @@ const initialState: SlidesState = {
 }
 
 interface GenerateSlidesParams {
-  input: string;
-  slideCount: number;
+  topic: string;
+  numSlides: number;
   includeImages: boolean;
-  style: string;
+  theme: string;
 }
 
 export const generateSlides = createAsyncThunk<Slide[], GenerateSlidesParams>(
@@ -34,7 +34,12 @@ export const generateSlides = createAsyncThunk<Slide[], GenerateSlidesParams>(
       const res = await fetch('/api/slides/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(params),
+        body: JSON.stringify({
+          topic: params.topic,
+          numSlides: params.numSlides,
+          includeImages: params.includeImages,
+          theme: params.theme,
+        }),
       });
 
       if (!res.ok) throw new Error('Failed to generate slides');

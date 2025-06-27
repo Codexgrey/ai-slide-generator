@@ -30,10 +30,10 @@ export default function GenerateButton({
 
             await dispatch(
                 generateSlides({
-                    input,
-                    slideCount,
+                    topic: input,
+                    numSlides: slideCount,
                     includeImages,
-                    style,
+                    theme: style,
                 })
             );
 
