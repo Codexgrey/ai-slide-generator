@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 
-interface Slide {
+export interface Slide {
   id: string
   title: string
   content: string[]

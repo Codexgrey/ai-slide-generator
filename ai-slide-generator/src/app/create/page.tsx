@@ -8,6 +8,7 @@ import GenerateButton from "@/components/SlideGenerator/GenerateButton";
 import ThemeToggle from "@/components/Theme/ThemeToggle";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import SlidePreview from "@/components/Slide/SlidePreview";
 
 export default function CreatePage() {
   const loading = useSelector((state: RootState) => state.ui.loading);
@@ -42,6 +43,7 @@ export default function CreatePage() {
             includeImages={includeImages}
             style={style}
           />
+          <SlidePreview />
         </div>
       </section>
     </main>

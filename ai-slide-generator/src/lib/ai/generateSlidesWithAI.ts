@@ -2,10 +2,10 @@ import openai from './openaiClient';
 import type { SlideInput } from '@/lib/slides/saveSlides';
 
 interface GenerateSlidesInput {
-  topic: string;
-  numSlides: number;
-  includeImages?: boolean;
-  theme?: string;
+    topic: string;
+    numSlides: number;
+    includeImages?: boolean;
+    theme?: string;
 }
 
 export async function generateSlidesWithAI({
@@ -13,6 +13,7 @@ export async function generateSlidesWithAI({
     numSlides,
     includeImages = false,
     theme = 'default',
+    
     }: GenerateSlidesInput): Promise<SlideInput[]>  {
         const prompt = `
             You are an expert presentation assistant. Generate a ${numSlides}-slide presentation on the topic: "${topic}".

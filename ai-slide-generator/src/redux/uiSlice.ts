@@ -17,22 +17,22 @@ const initialState: UIState = {
 };
 
 const uiSlice = createSlice({
-    name: 'ui',
-    initialState,
-    reducers: {
-        toggleTheme(state) {
-        state.theme = state.theme === 'light' ? 'dark' : 'light';
-        },
-        toggleSidebar(state) {
-        state.sidebarOpen = !state.sidebarOpen;
-        },
-        setLoading(state, action: PayloadAction<boolean>) {
-        state.loading = action.payload;
-        },
-        setError(state, action: PayloadAction<string | null>) {
-        state.error = action.payload;
-        },
+  name: 'ui',
+  initialState,
+  reducers: {
+    toggleTheme(state) {
+    state.theme = state.theme === 'light' ? 'dark' : 'light';
     },
+    toggleSidebar(state) {
+    state.sidebarOpen = !state.sidebarOpen;
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+    state.loading = action.payload;
+    },
+    setError(state, action: PayloadAction<string | null>) {
+    state.error = action.payload;
+    },
+  },
 });
 
 export const { toggleTheme, toggleSidebar, setLoading, setError } = uiSlice.actions;
