@@ -2,38 +2,45 @@
 "use client";
 
 import Image from "next/image";
-import type { Slide } from "@/redux/slidesSlice";
+import { Slide } from '@/types/slide';
+import { Theme } from '@/types/theme';
 
 interface Props {
     slide: Slide;
     index?: number;
+    theme?: Theme;
 }
 
-export default function SlideRenderer({ slide, index }: Props) {
+export default function SlideRenderer({ slide, index, theme }: Props) {
     return (
-        <div className="p-4 rounded-xl border bg-white dark:bg-gray-800 border-gray-200 
-            dark:border-gray-700 shadow-md flex flex-col justify-between hover:shadow-lg 
-            transition-transform duration-300 transform hover:-translate-y-1">
+        <div
+            className="rounded-xl p-4 shadow-md transition-transform 
+            duration-300 transform hover:-translate-y-1 hover:shadow-lg"
 
-            <div>
-                <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
-                    {index !== undefined ? `Slide ${index + 1}: ` : ""}{slide.title}
-                </h2>
-                <ul className="list-disc list-inside text-gray-800 dark:text-gray-200 space-y-1 mb-4">
-                    {slide.content.map((point, idx) => (
-                        <li key={idx}>{point}</li>
-                    ))}
-                </ul>
-            </div>
+            style={{
+                backgroundColor: theme?.backgroundColor || '#ffffff',
+                border: `1px solid ${theme?.secondaryColor || '#ddd'}`,
+                color: theme?.textColor || '#000000',
+                fontFamily: theme?.fontFamily || 'Open Sans',
+            }}
+        >
+            <h3 className="text-lg font-semibold mb-2">{slide.title}</h3>
+
+            <ul className="list-disc pl-5 space-y-1">
+                {slide.content.map((point, idx) => (
+                <li key={idx}>{point}</li>
+                ))}
+            </ul>
+
             {slide.imageUrl && (
-                <div className="mt-4">
-                    <Image
-                        src={slide.imageUrl}
-                        alt="Slide visual"
-                        width={800}
-                        height={400}
-                        className="w-full h-auto object-cover rounded"
-                    />
+                <div className="mt-3">
+                <Image
+                    src={slide.imageUrl}
+                    alt={`slide-${index}-image`}
+                    width={800}
+                    height={400}
+                    className="rounded-md w-full h-auto object-cover"
+                />
                 </div>
             )}
         </div>
