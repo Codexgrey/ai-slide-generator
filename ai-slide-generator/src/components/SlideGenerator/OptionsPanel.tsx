@@ -77,10 +77,10 @@ export default function OptionsPanel({
                     rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
                 >
                     <option value="professional">Professional</option>
-                    <option value="tech">Tech</option>
+                    <option value="technology">Technology</option>
                     <option value="education">Education</option>
                     <option value="creative">Creative</option>
-                    <option value="business">Business</option>
+                    <option value="medical">Medical</option>
                 </select>
             </div>
         </div>

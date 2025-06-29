@@ -1,18 +1,20 @@
 import openai from './openaiClient';
 import type { SlideInput } from '@/lib/slides/saveSlides';
+import { Theme } from '@/types/theme';
+import { themePresets } from '@/lib/slides/themePresets';
 
 interface GenerateSlidesInput {
     topic: string;
     numSlides: number;
     includeImages?: boolean;
-    theme?: string;
+    theme?: Theme;
 }
 
 export async function generateSlidesWithAI({
     topic,
     numSlides,
     includeImages = false,
-    theme = 'default',
+    theme = themePresets['default'],
     
     }: GenerateSlidesInput): Promise<SlideInput[]>  {
         const prompt = `
