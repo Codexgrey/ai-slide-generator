@@ -15,7 +15,7 @@ export default function SlideRenderer({ slide, index, theme }: Props) {
     return (
         <div
             className="rounded-xl p-4 shadow-md transition-transform 
-            duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+            duration-300 transform hover:-translate-y-2 hover:shadow-lg"
 
             style={{
                 backgroundColor: theme?.backgroundColor || '#ffffff',

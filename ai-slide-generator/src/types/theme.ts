@@ -6,5 +6,5 @@ export interface Theme {
     backgroundColor: string;
     textColor: string;
     fontFamily: string;
-    category: string; // medical, business, education, tech, creative
+    category: string; // medical, professional, education, tech, creative
 }
