@@ -4,6 +4,7 @@
 git clone <repo>
 cd ai-slide-generator 
 cp .env.example .env.local
+cp .env.mock .env
 docker compose -f docker-compose.dev.yml up --build
 ```
 
