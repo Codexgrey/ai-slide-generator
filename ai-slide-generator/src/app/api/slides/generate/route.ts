@@ -13,7 +13,7 @@ export async function POST(req: Request) {
         return new Response(JSON.stringify({ error: 'Missing input fields' }), { status: 400 });
     }
 
-    // ✅ Validate full theme object
+    // validate full theme object
     const isValidTheme =
         typeof theme === 'object' &&
         theme?.id &&
@@ -56,6 +56,7 @@ export async function POST(req: Request) {
             })
         );
 
+        // validate the processed slides
         const validatedSlides = validateSlides(processedSlides);
 
         if (validatedSlides.length === 0) {
@@ -88,7 +89,7 @@ export async function POST(req: Request) {
         });
 
     } catch (error) {
-        console.error('❌ Slide generation+save error:', error);
+        console.error('❌ Slide generation + save error:', error);
         return new Response(JSON.stringify({ error: 'Failed to generate and save slides' }), {
             status: 500,
         });
