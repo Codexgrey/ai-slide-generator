@@ -54,7 +54,7 @@ export default function GenerateButton({
             <button
                 onClick={handleClick}
                 disabled={isGenerating}
-                className="w-[30%] h-[44px] px-6 bg-blue-600 text-white text-sm font-semibold 
+                className="w-[200px] h-[44px] px-6 bg-blue-600 text-white text-sm font-semibold 
                 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {isGenerating ? "Generating..." : "Generate Slides"}
