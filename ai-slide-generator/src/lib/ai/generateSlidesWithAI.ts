@@ -3,6 +3,7 @@ import type { SlideInput } from '@/lib/slides/saveSlides';
 import { Theme } from '@/types/theme';
 import { themePresets } from '@/lib/slides/themePresets';
 
+
 interface GenerateSlidesInput {
     topic: string;
     numSlides: number;
@@ -15,28 +16,28 @@ export async function generateSlidesWithAI({
     numSlides,
     includeImages = false,
     theme = themePresets['default'],
-    
-    }: GenerateSlidesInput): Promise<SlideInput[]>  {
-        const prompt = `
-            You are an expert presentation assistant. Generate a ${numSlides}-slide presentation on the topic: "${topic}".
 
-            Each slide should follow this exact JSON format:
-            {
+}: GenerateSlidesInput): Promise<SlideInput[]> {
+    const prompt = `
+        You are an expert presentation assistant. Generate a ${numSlides}-slide presentation on the topic: "${topic}".
+
+        Each slide should follow this exact JSON format:
+        {
             "title": "Slide Title",
-            "content": ["Bullet point 1", "Bullet point 2", "Bullet point 3"]
+            "content": ["Bullet point 1", "Bullet point 2", "Bullet point 3"],
+            "notes": "Speaker notes or elaboration that explain the bullet points in more detail"
             ${includeImages ? ',\n  "imagePrompt": "A short prompt describing a relevant image"' : ''}
-            }
+        }
 
-            ${includeImages
-                ? 'Every slide must include an "imagePrompt" field describing an image suitable for the content.'
-                : 'Do NOT include the "imagePrompt" field in any slide.'
-            }
+        ${includeImages
+            ? 'Every slide must include an "imagePrompt" field describing an image suitable for the content.'
+            : 'Do NOT include the "imagePrompt" field in any slide.'
+        }
 
-            Use a "${theme}" style. Keep the language clear, structured, and professional.
-            Return ONLY a JSON array of slides. No explanation or intro.
-        `;
+        Use a "${theme}" style. Keep the language clear, structured, and professional.
+        Return ONLY a JSON array of slides. No explanation or intro.
+    `;
 
-    // console.log('Calling OpenAI with model: gpt-3.5-turbo');
     const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: prompt }],

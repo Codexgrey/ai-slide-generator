@@ -1,24 +1,33 @@
 // opt-in for client-side rendering
-"use client";
+'use client';
 
-import { useState } from "react";
-import InputForm from "@/components/SlideGenerator/InputForm";
-import OptionsPanel from "@/components/SlideGenerator/OptionsPanel";
-import GenerateButton from "@/components/SlideGenerator/GenerateButton";
-import ThemeToggle from "@/components/Theme/ThemeToggle";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import SlidePreview from "@/components/Slide/SlidePreview";
-import Loading from "@/components/UI/Loading";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
+import InputForm from '@/components/SlideGenerator/InputForm';
+import OptionsPanel from '@/components/SlideGenerator/OptionsPanel';
+import GenerateButton from '@/components/SlideGenerator/GenerateButton';
+import ThemeToggle from '@/components/Theme/ThemeToggle';
+import SlidePreview from '@/components/Slide/SlidePreview';
 
 export default function CreatePage() {
-  const loading = useSelector((state: RootState) => state.ui.loading);
-
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [slideCount, setSlideCount] = useState(5);
   const [includeImages, setIncludeImages] = useState(true);
-  const [style, setStyle] = useState("professional");
+  const [style, setStyle] = useState('professional');
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+  const slides = useSelector((state: RootState) => state.slides.slides);
+
+  const handlePreviewClick = async () => {
+    setLoading(true);
+    // mark in localStorage for notification after navigation
+    localStorage.setItem('showEditToast', 'true');
+    await router.push('/preview');
+  };
 
   return (
     <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -37,15 +46,30 @@ export default function CreatePage() {
           style={style}
           setStyle={setStyle}
         />
-        <div className="text-center space-y-6">
+
+        <div className="flex flex-col items-center gap-6 mt-8">
           <GenerateButton
-            loading={loading}
             input={input}
             slideCount={slideCount}
             includeImages={includeImages}
             style={style}
           />
-          {loading ? <Loading /> : <SlidePreview />}
+
+          {slides.length > 0 && (
+            <button
+              onClick={handlePreviewClick}
+              disabled={loading}
+              className={`w-[200px] h-[44px] px-6 py-2 text-sm font-semibold rounded transition-all ${
+                loading
+                  ? 'bg-zinc-400 text-white cursor-not-allowed'
+                  : 'bg-zinc-600 text-white hover:bg-blue-500'
+              }`}
+            >
+              {loading ? 'Creating Slides...' : 'View Slides'}
+            </button>
+          )}
+
+          <SlidePreview />
         </div>
       </section>
     </main>
