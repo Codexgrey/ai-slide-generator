@@ -26,14 +26,14 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
   };
 
   return (
-    <div className="border rounded-xl shadow-lg p-6 bg-white dark:bg-zinc-900 min-h-[400px] space-y-4">
+    <div className="border rounded-xl shadow-lg p-6 bg-white min-h-[400px] space-y-4">
       {/* Title */}
       <input
         type="text"
         value={localTitle}
         onChange={(e) => setLocalTitle(e.target.value)}
         onBlur={handleSave}
-        className="text-xl font-bold w-full p-2 bg-zinc-100 dark:bg-zinc-800 rounded focus:outline-none"
+        className="text-xl font-bold w-full p-2 bg-zinc-100 rounded focus:outline-none"
       />
 
       {/* Bullet Points */}
@@ -48,7 +48,7 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
                 setLocalContent(updated);
               }}
               onBlur={handleSave}
-              className="w-full bg-transparent border-b border-zinc-300 dark:border-zinc-700 focus:outline-none"
+              className="w-full bg-transparent border-b border-zinc-300 focus:outline-none"
             />
           </li>
         ))}
@@ -72,7 +72,7 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
         onBlur={handleSave}
         placeholder="Add speaker notes..."
         rows={4}
-        className="w-full p-2 bg-gray-100 dark:bg-zinc-800 rounded text-sm"
+        className="w-full p-2 bg-gray-100 rounded text-sm"
       />
     </div>
   );

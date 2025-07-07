@@ -17,7 +17,7 @@ export default function SlidePreview() {
   return (
     <section className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-white col-span-full text-left pl-1">
+        <h3 className="text-xl font-semibold text-gray-800 col-span-full text-left pl-1">
           Preview Slides
         </h3>
         {slides.map((slide: Slide, index: number | undefined) => (
