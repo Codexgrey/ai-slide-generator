@@ -1,20 +1,32 @@
-// client-side rendering
+// client-side component 
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
 import SlideViewer from './SlideViewer';
 import SlideThumbnails from './SlideThumbnails';
 import ExportPanel from './ExportPanel';
+import { setActiveSlideIndex } from '@/redux/slidesSlice';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SlidePreviewPage() {
   const slides = useSelector((state: RootState) => state.slides.slides);
-  const activeIndex = useSelector(
-    (state: RootState) => state.slides.activeSlideIndex
-  );
+  const activeIndex = useSelector((state: RootState) => state.slides.activeSlideIndex);
+  const dispatch = useDispatch();
+  const searchParams = useSearchParams();
   const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    const slideParam = searchParams.get('slide');
+    if (slideParam) {
+      const index = parseInt(slideParam);
+      if (!isNaN(index)) {
+        dispatch(setActiveSlideIndex(index));
+      }
+    }
+  }, [searchParams, dispatch]);
 
   useEffect(() => {
     if (localStorage.getItem('showEditToast') === 'true') {
@@ -30,7 +42,6 @@ export default function SlidePreviewPage() {
 
   return (
     <div className="relative p-4 max-w-7xl mx-auto">
-      {/* onLoad notification */}
       {showToast && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white 
         text-black px-6 py-2 rounded shadow-md z-50 text-sm font-medium">
@@ -38,7 +49,6 @@ export default function SlidePreviewPage() {
         </div>
       )}
 
-      {/* back link */}
       <Link
         href="/create"
         className="inline-flex items-center text-gray-600 hover:text-black transition 
@@ -47,17 +57,12 @@ export default function SlidePreviewPage() {
         ← Back to Create
       </Link>
 
-      {/* actions panel */}
       <ExportPanel />
 
-      {/* main layout */}
       <div className="flex flex-col lg:flex-row gap-6 mt-6 items-start">
-        {/* thumbnails sidebar */}
         <div className="w-full lg:w-1/5">
           <SlideThumbnails slides={slides} activeIndex={activeIndex} />
         </div>
-
-        {/* SlideViewer */}
         <div className="flex-1">
           <SlideViewer slide={slides[activeIndex]} />
         </div>

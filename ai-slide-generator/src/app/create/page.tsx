@@ -9,7 +9,7 @@ import { RootState } from '@/redux/store';
 import InputForm from '@/components/SlideGenerator/InputForm';
 import OptionsPanel from '@/components/SlideGenerator/OptionsPanel';
 import GenerateButton from '@/components/SlideGenerator/GenerateButton';
-import SlidePreview from '@/components/Slide/SlidePreview';
+import PreviewSlides from '@/components/Slide/PreviewSlides';
 
 export default function CreatePage() {
   const [input, setInput] = useState('');
@@ -60,16 +60,17 @@ export default function CreatePage() {
               className={`w-[200px] h-[44px] px-6 py-2 text-sm font-semibold rounded transition-all ${
                 loading
                   ? 'bg-zinc-400 text-white cursor-not-allowed'
-                  : 'bg-zinc-600 text-white hover:bg-blue-500'
+                  : 'bg-zinc-600 text-white hover:bg-zinc-900'
               }`}
             >
               {loading ? 'Creating Slides...' : 'View Slides'}
             </button>
           )}
 
-          <SlidePreview />
+          <PreviewSlides />
         </div>
       </section>
     </main>
   );
 }
+
