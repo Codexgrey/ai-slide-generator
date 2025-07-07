@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Slide } from '@/types/slide';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { updateSlide } from '@/redux/slidesSlice';
 import { RootState } from '@/redux/store';
 import { themePresets } from '@/lib/slides/themePresets';
@@ -12,6 +12,13 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
   const [localTitle, setLocalTitle] = useState(slide.title);
   const [localNotes, setLocalNotes] = useState(slide.notes || '');
   const [localContent, setLocalContent] = useState([...slide.content]);
+
+  // sync local state whenever a slide thumnbail is clicked
+  useEffect(() => {
+    setLocalTitle(slide.title);
+    setLocalNotes(slide.notes || '');
+    setLocalContent([...slide.content]);
+  }, [slide]);
 
   const handleSave = () => {
     dispatch(
@@ -26,7 +33,6 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
     );
   };
 
-  // get themepreset from Redux
   const themeId = useSelector(
     (state: RootState) => state.slides.currentPresentation?.theme?.id || 'clean'
   );
@@ -96,4 +102,3 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
     </div>
   );
 }
-
