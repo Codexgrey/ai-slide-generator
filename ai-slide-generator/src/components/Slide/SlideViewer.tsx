@@ -72,13 +72,15 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
 
       {/* image */}
       {slide.imageUrl && (
-        <Image
-          src={slide.imageUrl}
-          alt="slide image"
-          className="w-full h-80 object-cover rounded-md"
-          width={500}
-          height={250}
-        />
+        <div className="w-full h-[400px] flex items-center justify-center overflow-hidden rounded-md">
+          <Image
+            src={slide.imageUrl}
+            alt="slide image"
+            width={600}
+            height={300}
+            className="max-h-full w-auto object-contain"
+          />
+        </div>
       )}
 
       {/* notes */}

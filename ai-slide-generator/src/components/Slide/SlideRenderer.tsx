@@ -34,13 +34,13 @@ export default function SlideRenderer({ slide, index, theme }: Props) {
 
             {slide.imageUrl && (
                 <div className="mt-3">
-                <Image
-                    src={slide.imageUrl}
-                    alt={`slide-${index}-image`}
-                    width={800}
-                    height={400}
-                    className="rounded-md w-full h-auto object-cover"
-                />
+                    <Image
+                        src={slide.imageUrl}
+                        alt={`slide-${index}-image`}
+                        width={800}
+                        height={400}
+                        className="rounded-md w-full h-auto object-cover"
+                    />
                 </div>
             )}
         </div>
