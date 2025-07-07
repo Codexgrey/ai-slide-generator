@@ -1,4 +1,4 @@
-// client-side rendering
+// client-side rendering 
 'use client';
 
 import { Slide } from '@/types/slide';
@@ -7,7 +7,7 @@ import { setActiveSlideIndex } from '@/redux/slidesSlice';
 
 export default function SlideThumbnails({
   slides,
-  activeIndex,
+  activeIndex
 }: {
   slides: Slide[];
   activeIndex: number;
@@ -22,7 +22,7 @@ export default function SlideThumbnails({
           onClick={() => dispatch(setActiveSlideIndex(index))}
           className={`border p-2 rounded-md cursor-pointer text-sm ${
             index === activeIndex ? 'border-blue-500' : 'border-gray-300'
-          } bg-white dark:bg-zinc-800`}
+          } bg-white`}
         >
           <p className="font-semibold truncate">{slide.title}</p>
           <ul className="text-xs list-disc ml-4">
@@ -35,3 +35,4 @@ export default function SlideThumbnails({
     </div>
   );
 }
+
