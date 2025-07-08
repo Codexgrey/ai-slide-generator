@@ -51,6 +51,7 @@ export default function SlidePreviewPage() {
 
       <Link
         href="/create"
+        onClick={() => localStorage.setItem('showInputToast', 'true')}
         className="inline-flex items-center text-gray-600 hover:text-black transition 
         hover:bg-gray-100 px-4 py-2 rounded-md shadow-sm border border-gray-200 mb-6"
       >

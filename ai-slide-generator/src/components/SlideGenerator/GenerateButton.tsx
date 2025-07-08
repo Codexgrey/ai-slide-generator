@@ -53,7 +53,7 @@ export default function GenerateButton({
         <div className="flex flex-col items-center gap-4">
             <button
                 onClick={handleClick}
-                disabled={isGenerating}
+                disabled={isGenerating || input.trim() === ''}
                 className="w-[200px] h-[44px] px-6 bg-blue-600 text-white text-sm font-semibold 
                 rounded-md hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
