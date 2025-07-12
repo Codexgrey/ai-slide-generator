@@ -10,14 +10,14 @@ import Loading from "@/components/UI/Loading";
 interface Props {
     input: string;
     slideCount: number;
-    includeImages: boolean;
+    numSlidesWithImages: number;
     style: string;
 }
 
 export default function GenerateButton({
     input,
     slideCount,
-    includeImages,
+    numSlidesWithImages,
     style,
 }: Props) {
     const dispatch = useDispatch<AppDispatch>();
@@ -39,7 +39,7 @@ export default function GenerateButton({
                 generateSlides({
                 topic: input,
                 numSlides: slideCount,
-                includeImages,
+                numSlidesWithImages,
                 theme: selectedTheme,
                 })
             );

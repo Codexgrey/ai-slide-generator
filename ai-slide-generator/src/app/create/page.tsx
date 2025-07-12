@@ -14,7 +14,7 @@ import PreviewSlides from '@/components/Slide/PreviewSlides';
 export default function CreatePage() {
   const [input, setInput] = useState('');
   const [slideCount, setSlideCount] = useState(5);
-  const [includeImages, setIncludeImages] = useState(true);
+  const [numSlidesWithImages, setNumSlidesWithImages] = useState(0); // updated state for image count
   const [style, setStyle] = useState('professional');
   const [loading, setLoading] = useState(false);
   const [showInputToast, setShowInputToast] = useState(false);
@@ -60,8 +60,8 @@ export default function CreatePage() {
           <OptionsPanel
             slideCount={slideCount}
             setSlideCount={setSlideCount}
-            includeImages={includeImages}
-            setIncludeImages={setIncludeImages}
+            numSlidesWithImages={numSlidesWithImages}
+            setNumSlidesWithImages={setNumSlidesWithImages}
             style={style}
             setStyle={setStyle}
           />
@@ -70,7 +70,7 @@ export default function CreatePage() {
             <GenerateButton
               input={input}
               slideCount={slideCount}
-              includeImages={includeImages}
+              numSlidesWithImages={numSlidesWithImages}
               style={style}
             />
 
