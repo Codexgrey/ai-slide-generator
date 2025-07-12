@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Slide } from '@/types/slide';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { updateSlide } from '@/redux/slidesSlice';
 import { RootState } from '@/redux/store';
 import { themePresets } from '@/lib/slides/themePresets';
@@ -13,7 +13,8 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
   const [localNotes, setLocalNotes] = useState(slide.notes || '');
   const [localContent, setLocalContent] = useState([...slide.content]);
 
-  // sync local state whenever a slide thumnbail is clicked
+  const notesRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setLocalTitle(slide.title);
     setLocalNotes(slide.notes || '');
@@ -38,16 +39,28 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
   );
   const theme = themePresets[themeId];
 
+  const renderBulletNotes = () => {
+    const notesChunks = localNotes.split(/\n\s*\n/);
+    return (
+      <div className="flex flex-col justify-evenly h-full text-sm text-gray-100 leading-relaxed whitespace-pre-wrap px-2">
+        {notesChunks.map((chunk, i) => (
+          <div key={i}>{chunk.trim()}</div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div
-      className="border rounded-xl shadow-lg p-6 min-h-[400px] space-y-4"
+      className="border rounded-xl shadow-lg p-6 flex flex-col justify-start space-y-4 overflow-hidden"
       style={{
+        height: '560px',
         backgroundColor: theme.backgroundColor,
         color: theme.textColor,
         fontFamily: theme.fontFamily,
       }}
     >
-      {/* title */}
+      {/* Title */}
       <input
         type="text"
         value={localTitle}
@@ -57,7 +70,7 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
         style={{ color: theme.textColor }}
       />
 
-      {/* bullet points */}
+      {/* Bullet Points */}
       <ul className="list-disc pl-5 space-y-2">
         {localContent.map((point, i) => (
           <li key={i}>
@@ -76,29 +89,30 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
         ))}
       </ul>
 
-      {/* image */}
-      {slide.imageUrl && (
-        <div className="w-full h-[400px] flex items-center justify-center overflow-hidden rounded-md">
-          <Image
-            src={slide.imageUrl}
-            alt="slide image"
-            width={600}
-            height={300}
-            className="max-h-full w-auto object-contain"
-          />
-        </div>
-      )}
-
-      {/* notes */}
-      <textarea
-        value={localNotes}
-        onChange={(e) => setLocalNotes(e.target.value)}
-        onBlur={handleSave}
-        placeholder="Add speaker notes..."
-        rows={4}
-        className="w-full p-2 bg-white/20 rounded text-sm"
-        style={{ color: theme.textColor }}
-      />
+      {/* Notes / Image Section */}
+      <div className="flex-grow overflow-hidden">
+        {slide.imageUrl ? (
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 h-full">
+            <div className="md:w-1/2 w-full flex justify-center items-center h-full">
+              <Image
+                src={slide.imageUrl}
+                alt="slide image"
+                width={600}
+                height={300}
+                className="max-h-full w-auto object-contain rounded shadow"
+              />
+            </div>
+            <div
+              ref={notesRef}
+              className="md:w-1/2 w-full text-sm text-gray-100 leading-relaxed whitespace-pre-wrap px-2 flex justify-center items-center h-full"
+            >
+              {localNotes}
+            </div>
+          </div>
+        ) : (
+          <div className="h-full">{renderBulletNotes()}</div>
+        )}
+      </div>
     </div>
   );
 }
