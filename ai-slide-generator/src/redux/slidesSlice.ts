@@ -20,7 +20,7 @@ const initialState: SlidesState = {
 interface GenerateSlidesParams {
   topic: string;
   numSlides: number;
-  includeImages: boolean;
+  numSlidesWithImages: number; // params updated from includeImages
   theme: Theme;
 }
 
@@ -75,17 +75,13 @@ const slidesSlice = createSlice({
       })
       .addCase(generateSlides.fulfilled, (state, action) => {
         const presentation = action.payload;
-
-        // converting dates to ISO strings to prevent Redux warnings
         state.currentPresentation = {
           ...presentation,
           createdAt: new Date(presentation.createdAt).toISOString(),
           updatedAt: new Date(presentation.updatedAt).toISOString(),
         };
-
         state.slides = presentation.slides;
         state.isGenerating = false;
-
         console.log('🔥[generateSlides.fulfilled] Stored theme: ', presentation.theme);
       })
       .addCase(generateSlides.rejected, (state) => {

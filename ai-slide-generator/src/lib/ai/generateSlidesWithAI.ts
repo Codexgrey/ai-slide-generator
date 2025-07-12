@@ -3,18 +3,17 @@ import type { SlideInput } from '@/lib/slides/saveSlides';
 import { Theme } from '@/types/theme';
 import { themePresets } from '@/lib/slides/themePresets';
 
-
 interface GenerateSlidesInput {
     topic: string;
     numSlides: number;
-    includeImages?: boolean;
+    numSlidesWithImages: number;
     theme?: Theme;
 }
 
 export async function generateSlidesWithAI({
     topic,
     numSlides,
-    includeImages = false,
+    numSlidesWithImages,
     theme = themePresets['default'],
 
 }: GenerateSlidesInput): Promise<SlideInput[]> {
@@ -25,13 +24,7 @@ export async function generateSlidesWithAI({
         {
             "title": "Slide Title",
             "content": ["Bullet point 1", "Bullet point 2", "Bullet point 3"],
-            "notes": "Speaker notes or elaboration that explain the bullet points in more detail"
-            ${includeImages ? ',\n  "imagePrompt": "A short prompt describing a relevant image"' : ''}
-        }
-
-        ${includeImages
-            ? 'Every slide must include an "imagePrompt" field describing an image suitable for the content.'
-            : 'Do NOT include the "imagePrompt" field in any slide.'
+            "notes": "Speaker notes or elaboration that explain each bullet point in detail with at least 3 sentences",
         }
 
         Use a "${theme}" style. Keep the language clear, structured, and professional.
@@ -47,8 +40,22 @@ export async function generateSlidesWithAI({
     const raw = response.choices?.[0]?.message?.content ?? '';
 
     try {
-        const slides = JSON.parse(raw || '[]');
-        return slides;
+        const slides: SlideInput[] = JSON.parse(raw || '[]');
+
+        // randomly assign image prompts to selected slides
+        const indices = new Set<number>();
+        while (indices.size < Math.min(numSlidesWithImages, slides.length)) {
+        indices.add(Math.floor(Math.random() * slides.length));
+        }
+
+        return slides.map((slide, index) =>
+        indices.has(index)
+            ? {
+                ...slide,
+                imagePrompt: `An image that fits the slide titled "${slide.title}"`,
+            }
+            : slide
+        );
     } catch {
         console.error('❌ Failed to parse AI response:', raw);
         throw new Error('Invalid JSON from AI response');
