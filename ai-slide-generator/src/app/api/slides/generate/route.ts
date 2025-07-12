@@ -7,7 +7,7 @@ import { validateSlides } from '@/lib/slides/validateSlides';
 
 export async function POST(req: Request) {
     const body = await req.json();
-    const { topic, numSlides, includeImages, theme } = body;
+    const { topic, numSlides, numSlidesWithImages, theme } = body;
 
     if (!topic || !numSlides || !theme) {
         return new Response(JSON.stringify({ error: 'Missing input fields' }), { status: 400 });
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         const aiSlides = await generateSlidesWithAI({
             topic,
             numSlides,
-            includeImages,
+            numSlidesWithImages,
             theme,
         });
 
@@ -43,9 +43,7 @@ export async function POST(req: Request) {
         const processedSlides: SlideInput[] = await Promise.all(
             (aiSlides as AISlide[]).map(async (slide: AISlide): Promise<SlideInput> => {
                 const imageUrl =
-                    includeImages && slide.imagePrompt
-                        ? await fetchImageFromPrompt(slide.imagePrompt) ?? undefined
-                        : undefined;
+                    slide.imagePrompt ? await fetchImageFromPrompt(slide.title) ?? undefined : undefined;
 
                 return {
                     title: slide.title,
