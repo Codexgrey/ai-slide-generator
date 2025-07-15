@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
@@ -14,32 +14,51 @@ import PreviewSlides from '@/components/Slide/PreviewSlides';
 export default function CreatePage() {
   const [input, setInput] = useState('');
   const [slideCount, setSlideCount] = useState(5);
-  const [numSlidesWithImages, setNumSlidesWithImages] = useState(0); // updated state for image count
-  const [style, setStyle] = useState('professional');
+  const [numSlidesWithImages, setNumSlidesWithImages] = useState(0);
+  const [style, setStyle] = useState('simple');
   const [loading, setLoading] = useState(false);
   const [showInputToast, setShowInputToast] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const slides = useSelector((state: RootState) => state.slides.slides);
+  const isReturning = searchParams.get('returning') === 'true';
 
   const handlePreviewClick = async () => {
     setLoading(true);
     localStorage.setItem('previousInput', input);
-    localStorage.setItem('showEditToast', 'true');
+    localStorage.setItem('previousStyle', style);
+    localStorage.setItem('showInputToast', 'true');
     await router.push('/preview');
   };
 
-  // restore saved input when returning
-  useEffect(() => {
-    const restored = localStorage.getItem('previousInput');
-    if (restored) setInput(restored);
 
-    if (localStorage.getItem('showInputToast') === 'true') {
-      setShowInputToast(true);
+  useEffect(() => {
+    if (isReturning) {
+      const restored = localStorage.getItem('previousInput');
+      const savedStyle = localStorage.getItem('previousStyle');
+      if (restored) setInput(restored);
+      if (savedStyle) setStyle(savedStyle);
+
+      if (localStorage.getItem('showInputToast') === 'true') {
+        setShowInputToast(true);
+        localStorage.removeItem('showInputToast');
+        setTimeout(() => setShowInputToast(false), 3000);
+      }
+    } else {
+      // if not returning - clean up state
+      localStorage.removeItem('previousInput');
+      localStorage.removeItem('previousStyle');
       localStorage.removeItem('showInputToast');
-      setTimeout(() => setShowInputToast(false), 3000);
+      setInput('');
+      setStyle('simple');
     }
-  }, []);
+  }, [isReturning]);
+
+  useEffect(() => {
+    localStorage.setItem('currentStyle', style);
+  }, [style]);
+
 
   return (
     <>
@@ -50,8 +69,8 @@ export default function CreatePage() {
         </div>
       )}
 
-      <main className="min-h-screen bg-white text-gray-900 ">
-        <header className="flex items-center justify-between px-6 py-4 border-b border-gray-200 ">
+      <main className="min-h-screen bg-white text-gray-900">
+        <header className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
           <h1 className="text-2xl font-bold">Create New Presentation</h1>
         </header>
 
@@ -95,3 +114,4 @@ export default function CreatePage() {
     </>
   );
 }
+
