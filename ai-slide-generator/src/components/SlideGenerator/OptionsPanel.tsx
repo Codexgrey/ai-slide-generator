@@ -80,7 +80,7 @@ export default function OptionsPanel({
                     onChange={(e) => setStyle(e.target.value)}
                     className="w-full h-[44px] px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-800"
                 >
-                    <option value="clean">Clean and Simple</option>
+                    <option value="simple">Simple</option>
                     <option value="professional">Professional</option>
                     <option value="technology">Technology</option>
                     <option value="education">Education</option>

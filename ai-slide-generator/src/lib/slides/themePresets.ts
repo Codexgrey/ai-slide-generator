@@ -2,8 +2,8 @@
 import { Theme } from '@/types/theme';
 
 export const themePresets: Record<string, Theme> = {
-    clean: {
-        id: 'clean',
+    simple: {
+        id: 'simple',
         name: 'Default',
         category: 'general',
         primaryColor: '#007bff',
