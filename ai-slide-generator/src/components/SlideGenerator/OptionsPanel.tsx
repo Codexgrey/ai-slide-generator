@@ -73,13 +73,14 @@ export default function OptionsPanel({
             {/* presentation style */}
             <div className="md:w-[30%] w-full">
                 <label className="block text-center font-medium text-sm mb-1 text-gray-700">
-                    Presentation Style
+                    Presentation Theme
                 </label>
                 <select
                     value={style}
                     onChange={(e) => setStyle(e.target.value)}
                     className="w-full h-[44px] px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-800"
                 >
+                    <option>Select Theme</option>
                     <option value="simple">Simple</option>
                     <option value="professional">Professional</option>
                     <option value="technology">Technology</option>
