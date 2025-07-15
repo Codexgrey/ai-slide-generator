@@ -1,5 +1,6 @@
-// client rendering
 "use client";
+import { useState } from "react";
+import { themePresets } from "@/lib/slides/themePresets";
 
 interface Props {
     slideCount: number;
@@ -18,17 +19,19 @@ export default function OptionsPanel({
     style,
     setStyle,
 }: Props) {
+    const [showDialog, setShowDialog] = useState(false);
     const handleSlideChange = (delta: number) => {
         const newCount = Math.max(1, Math.min(slideCount + delta, 20));
         setSlideCount(newCount);
+
         // stop image count if it exceeds new slide count
         if (numSlidesWithImages > newCount) {
-            setNumSlidesWithImages(newCount);
+        setNumSlidesWithImages(newCount);
         }
     };
 
     return (
-        <div className="flex flex-col md:flex-row justify-between items-end gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-end gap-4 relative">
             {/* slide count */}
             <div className="md:w-[30%] w-full">
                 <label className="block text-center font-medium text-sm mb-1 text-gray-700">
@@ -53,7 +56,7 @@ export default function OptionsPanel({
                 </div>
             </div>
 
-            {/* number of slides with images */}
+            {/* number of slides with images  */}
             <div className="md:w-[18%] w-full">
                 <label className="block text-center font-medium text-sm mb-1 text-gray-700">
                     Slides with Images
@@ -64,31 +67,61 @@ export default function OptionsPanel({
                     max={slideCount}
                     value={numSlidesWithImages}
                     onChange={(e) =>
-                        setNumSlidesWithImages(Math.min(slideCount, parseInt(e.target.value) || 0))
+                        setNumSlidesWithImages(
+                        Math.min(slideCount, parseInt(e.target.value) || 0)
+                        )
                     }
                     className="w-full h-[44px] px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-800"
                 />
             </div>
 
-            {/* presentation style */}
+            {/* presentation theme selector */}
             <div className="md:w-[30%] w-full">
                 <label className="block text-center font-medium text-sm mb-1 text-gray-700">
                     Presentation Theme
                 </label>
-                <select
-                    value={style}
-                    onChange={(e) => setStyle(e.target.value)}
-                    className="w-full h-[44px] px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-800"
+                <button
+                    onClick={() => setShowDialog(true)}
+                    className="w-full h-[44px] px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-800 text-left"
                 >
-                    <option>Select Theme</option>
-                    <option value="simple">Simple</option>
-                    <option value="professional">Professional</option>
-                    <option value="technology">Technology</option>
-                    <option value="education">Education</option>
-                    <option value="creative">Creative</option>
-                    <option value="medical">Medical</option>
-                </select>
+                    {style ? themePresets[style]?.name : "Select Theme"}
+                </button>
             </div>
+
+            {/* dialog box */}
+            {showDialog && (
+                <>
+                    <div className="fixed inset-0 bg-black bg-opacity-40 z-40" onClick={() => setShowDialog(false)} />
+                    <div className="fixed inset-0 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-xl max-w-3xl w-full shadow-lg">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+                                Choose a Theme
+                            </h3>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {Object.entries(themePresets).map(([key, theme]) => (
+                                    <button
+                                        key={key}
+                                        onClick={() => {
+                                            setStyle(theme.id);
+                                            setShowDialog(false);
+                                        }}
+                                        style={{
+                                            backgroundColor: theme.backgroundColor,
+                                            color: theme.textColor,
+                                            fontFamily: theme.fontFamily,
+                                        }}
+                                        className="rounded-md px-4 py-3 text-sm font-medium shadow-md 
+                                        transition-transform duration-200 hover:scale-105"
+                                    >
+                                        {theme.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }
+

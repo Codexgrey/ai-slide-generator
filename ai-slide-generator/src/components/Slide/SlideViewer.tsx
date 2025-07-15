@@ -42,7 +42,7 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
   const renderBulletNotes = () => {
     const notesChunks = localNotes.split(/\n\s*\n/);
     return (
-      <div className="flex flex-col justify-evenly h-full text-sm text-gray-100 leading-relaxed whitespace-pre-wrap px-2">
+      <div className="flex flex-col justify-evenly h-full text-sm leading-relaxed whitespace-pre-wrap px-2">
         {notesChunks.map((chunk, i) => (
           <div key={i}>{chunk.trim()}</div>
         ))}
@@ -66,7 +66,7 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
         value={localTitle}
         onChange={(e) => setLocalTitle(e.target.value)}
         onBlur={handleSave}
-        className="text-xl font-bold w-full p-2 bg-white/20 rounded focus:outline-none"
+        className="text-xl font-bold w-full p-2 bg-white/40 rounded focus:outline-none"
         style={{ color: theme.textColor }}
       />
 
@@ -82,7 +82,7 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
                 setLocalContent(updated);
               }}
               onBlur={handleSave}
-              className="w-full bg-transparent border-b border-white/50 focus:outline-none"
+              className="w-full bg-transparent border-b border-white/70 focus:outline-none"
               style={{ color: theme.textColor }}
             />
           </li>
@@ -104,15 +104,19 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
             </div>
             <div
               ref={notesRef}
-              className="md:w-1/2 w-full text-sm text-gray-100 leading-relaxed whitespace-pre-wrap px-2 flex justify-center items-center h-full"
+              className="md:w-1/2 w-full text-sm leading-relaxed whitespace-pre-wrap px-2 flex justify-center items-center h-full"
+              style={{ color: theme.textColor }}
             >
               {localNotes}
             </div>
           </div>
         ) : (
-          <div className="h-full">{renderBulletNotes()}</div>
+          <div className="h-full" style={{ color: theme.textColor }}>
+            {renderBulletNotes()}
+          </div>
         )}
       </div>
     </div>
   );
 }
+

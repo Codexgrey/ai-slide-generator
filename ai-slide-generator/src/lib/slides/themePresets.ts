@@ -15,7 +15,7 @@ export const themePresets: Record<string, Theme> = {
 
     medical: {
         id: 'medical',
-        name: 'Medical Teal',
+        name: 'Medical',
         category: 'medical',
         primaryColor: '#26a69a',
         secondaryColor: '#4db6ac',
@@ -26,7 +26,7 @@ export const themePresets: Record<string, Theme> = {
 
     professional: {
         id: 'professional',
-        name: 'Corporate Blue',
+        name: 'Professional',
         category: 'business',
         primaryColor: '#1976d2',
         secondaryColor: '#42a5f5',
@@ -35,20 +35,20 @@ export const themePresets: Record<string, Theme> = {
         fontFamily: 'Segoe UI, sans-serif',
     },
 
-    education: {
+   education: {
         id: 'education',
-        name: 'Bright Education',
+        name: 'Education',
         category: 'education',
-        primaryColor: '#26c6da',
-        secondaryColor: '#4dd0e1',
-        backgroundColor: '#00838f', 
-        textColor: '#e0f7fa',
+        primaryColor: '#4caf50',
+        secondaryColor: '#81c784',
+        backgroundColor: '#f1f8e9', 
+        textColor: '#2e7d32',
         fontFamily: 'Trebuchet MS, sans-serif',
     },
 
     technology: {
         id: 'technology',
-        name: 'Futuristic Dark',
+        name: 'Technology',
         category: 'technology',
         primaryColor: '#00bcd4',
         secondaryColor: '#00acc1',
@@ -59,7 +59,7 @@ export const themePresets: Record<string, Theme> = {
     
     creative: {
         id: 'creative',
-        name: 'Vibrant Expressive',
+        name: 'Creative Arts',
         category: 'creative',
         primaryColor: '#ab47bc',
         secondaryColor: '#ce93d8',
