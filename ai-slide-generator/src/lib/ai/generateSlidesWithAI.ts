@@ -49,7 +49,7 @@ async function generateNotesForSlide(slide: { title: string; content: string[] }
         Write the speaker notes for this slide.
         ${
         hasImage
-            ? 'Write a single paragraph that touches on the bullet points with at most 6 lines of text.'
+            ? 'Write a single paragraph that touches on the bullet points with at most 4 lines of text.'
             : 'For each bullet point, write at least 3 detailed sentences. Separate each explanation neatly.'
         }
         Return ONLY the notes content as plain text.
