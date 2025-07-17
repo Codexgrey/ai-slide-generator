@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { Slide } from '@/types/slide';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +30,7 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
         slide: {
           title: localTitle,
           content: localContent,
-          notes: localNotes,
+          notes: notesRef.current?.innerHTML || '',
         },
       })
     );
@@ -38,17 +40,6 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
     (state: RootState) => state.slides.currentPresentation?.theme?.id || 'clean'
   );
   const theme = themePresets[themeId];
-
-  const renderBulletNotes = () => {
-    const notesChunks = localNotes.split(/\n\s*\n/);
-    return (
-      <div className="flex flex-col justify-evenly h-full text-sm leading-relaxed whitespace-pre-wrap px-2">
-        {notesChunks.map((chunk, i) => (
-          <div key={i}>{chunk.trim()}</div>
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div
@@ -73,17 +64,19 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
       {/* Bullet Points */}
       <ul className="list-disc pl-5 space-y-2">
         {localContent.map((point, i) => (
-          <li key={i}>
-            <input
-              value={point}
-              onChange={(e) => {
+          <li key={i} className="w-full text-sm">
+            <div
+              contentEditable
+              suppressContentEditableWarning
+              onBlur={(e) => {
                 const updated = [...localContent];
-                updated[i] = e.target.value;
+                updated[i] = e.currentTarget.innerHTML;
                 setLocalContent(updated);
+                handleSave();
               }}
-              onBlur={handleSave}
-              className="w-full bg-transparent border-b border-white/70 focus:outline-none"
+              className="w-full border-b border-white/50 pb-1"
               style={{ color: theme.textColor }}
+              dangerouslySetInnerHTML={{ __html: point }}
             />
           </li>
         ))}
@@ -106,17 +99,26 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
               ref={notesRef}
               className="md:w-1/2 w-full text-sm leading-relaxed whitespace-pre-wrap px-2 flex justify-center items-center h-full"
               style={{ color: theme.textColor }}
-            >
-              {localNotes}
-            </div>
+              contentEditable
+              suppressContentEditableWarning
+              onBlur={handleSave}
+              dangerouslySetInnerHTML={{ __html: localNotes }}
+            />
           </div>
         ) : (
-          <div className="h-full" style={{ color: theme.textColor }}>
-            {renderBulletNotes()}
+          <div className="h-full px-2">
+            <div
+              ref={notesRef}
+              className="text-sm leading-relaxed whitespace-pre-wrap"
+              style={{ color: theme.textColor }}
+              contentEditable
+              suppressContentEditableWarning
+              onBlur={handleSave}
+              dangerouslySetInnerHTML={{ __html: localNotes }}
+            />
           </div>
         )}
       </div>
     </div>
   );
 }
-
