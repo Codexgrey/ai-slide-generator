@@ -97,7 +97,7 @@ export default function CreatePage() {
               <button
                 onClick={handlePreviewClick}
                 disabled={loading}
-                className={`w-[200px] h-[44px] px-6 py-2 text-sm font-semibold rounded transition-all ${
+                className={`w-[200px] h-[44px] px-6 py-2 text-sm font-semibold rounded-md transition-all ${
                   loading
                     ? 'bg-zinc-400 text-white cursor-not-allowed'
                     : 'bg-zinc-800 text-white hover:bg-zinc-600'
