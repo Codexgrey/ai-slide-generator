@@ -54,14 +54,14 @@ model Account {
 }
 
 model Presentation {
-  id        String   @id @default(uuid())
-  title     String
-  content   String[]
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Slide     Slide[]
+  id            String   @id @default(uuid())
+  title         String
+  description   String?
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  slides        Slide[]
 }
 
 model Slide {
