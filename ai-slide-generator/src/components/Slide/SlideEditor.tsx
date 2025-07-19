@@ -33,6 +33,7 @@ export default function SlideEditor({ onClose }: { onClose: () => void }) {
                 const range = selection.getRangeAt(0);
                 const span = document.createElement('span');
                 span.style.backgroundColor = 'yellow';
+                span.style.color = '#2e7d32';
                 span.style.padding = '0 2px';
                 range.surroundContents(span);
             }
