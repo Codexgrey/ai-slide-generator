@@ -1,5 +1,22 @@
-import { redirect } from "next/navigation";
+// client-side rendered component
+'use client';
+
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  redirect("/create");
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (session?.user) {
+      router.replace('/dashboard');
+    } else {
+      router.replace('/login');
+    }
+  }, [status, session, router]);
+
+  return null;
 }
