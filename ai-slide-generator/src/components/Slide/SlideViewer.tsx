@@ -37,9 +37,9 @@ export default function SlideViewer({ slide }: { slide: Slide }) {
   };
 
   const themeId = useSelector(
-    (state: RootState) => state.slides.currentPresentation?.theme?.id || 'clean'
+    (state: RootState) => state.slides.currentPresentation?.themeId || 'clean'
   );
-  const theme = themePresets[themeId];
+  const theme = themePresets[themeId] || themePresets['clean'];
 
   return (
     <div

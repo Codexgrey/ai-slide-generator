@@ -7,9 +7,10 @@ import { RootState } from '@/redux/store';
 import SlideViewer from './SlideViewer';
 import SlideThumbnails from './SlideThumbnails';
 import ExportPanel from './ExportPanel';
-import { setActiveSlideIndex } from '@/redux/slidesSlice';
+import { setSlides,  setCurrentPresentation, setActiveSlideIndex } from '@/redux/slidesSlice';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+
 
 export default function SlidePreviewPage() {
   const slides = useSelector((state: RootState) => state.slides.slides);
@@ -17,6 +18,23 @@ export default function SlidePreviewPage() {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    async function fetchPresentation() {
+      const id = searchParams.get('id');
+      if (!id) return;
+
+      const res = await fetch(`/api/presentations/${id}`);
+      const { presentation } = await res.json();
+
+      if (presentation) {
+        dispatch(setCurrentPresentation(presentation));
+        dispatch(setSlides(presentation.slides));
+        dispatch(setActiveSlideIndex(0));
+      }
+    }
+    fetchPresentation();
+  }, [searchParams, dispatch]);
 
   useEffect(() => {
     const slideParam = searchParams.get('slide');
@@ -39,6 +57,7 @@ export default function SlidePreviewPage() {
   if (!slides.length) {
     return <p className="text-center mt-10">No slides to preview.</p>;
   }
+
 
   return (
     <div className="relative p-4 max-w-7xl mx-auto">
