@@ -24,6 +24,7 @@ export async function savePresentationToDB(data: SaveInput) {
               userId: 'test-user-id',  // testing - replaced with real session ID later
               title: data.title,
               description: data.description ?? '',
+              themeId: data.theme.id,
               slides: {
                 create: data.slides.map((slide, index) => ({
                   ...slide,
