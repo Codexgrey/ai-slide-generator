@@ -57,6 +57,7 @@ model Presentation {
   id            String   @id @default(uuid())
   title         String
   description   String?
+  themeId       String 
   userId        String
   user          User     @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
@@ -71,6 +72,6 @@ model Slide {
   imageUrl       String?
   notes          String?
   order          Int
-  presentation   Presentation @relation(fields: [presentationId], references: [id])
+  presentation   Presentation @relation(fields: [presentationId], references: [id], onDelete: Cascade)
   presentationId String
 }
