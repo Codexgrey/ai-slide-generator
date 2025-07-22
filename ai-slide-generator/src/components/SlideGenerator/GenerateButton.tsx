@@ -10,14 +10,14 @@ import Loading from "@/components/UI/Loading";
 interface Props {
     input: string;
     slideCount: number;
-    includeImages: boolean;
+    numSlidesWithImages: number;
     style: string;
 }
 
 export default function GenerateButton({
     input,
     slideCount,
-    includeImages,
+    numSlidesWithImages,
     style,
 }: Props) {
     const dispatch = useDispatch<AppDispatch>();
@@ -39,7 +39,7 @@ export default function GenerateButton({
                 generateSlides({
                 topic: input,
                 numSlides: slideCount,
-                includeImages,
+                numSlidesWithImages,
                 theme: selectedTheme,
                 })
             );
@@ -53,9 +53,9 @@ export default function GenerateButton({
         <div className="flex flex-col items-center gap-4">
             <button
                 onClick={handleClick}
-                disabled={isGenerating}
-                className="w-[30%] h-[44px] px-6 bg-blue-600 text-white text-sm font-semibold 
-                rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isGenerating || input.trim() === ''}
+                className="w-[200px] h-[44px] px-6 bg-blue-600 text-white text-sm font-semibold 
+                rounded-md hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {isGenerating ? "Generating..." : "Generate Slides"}
             </button>

@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Presentation } from '../types/presentation'
 
 interface User {
   id: string
   name: string
   email: string
+  createdAt: Date;
+  updatedAt: Date;
+  presentations: Presentation[];
 }
 
 interface AuthState {

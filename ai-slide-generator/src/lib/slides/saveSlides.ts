@@ -21,8 +21,10 @@ export async function savePresentationToDB(data: SaveInput) {
 
         const presentation = await prisma.presentation.create({
             data: {
+              userId: 'test-user-id',  // testing - replaced with real session ID later
               title: data.title,
               description: data.description ?? '',
+              themeId: data.theme.id,
               slides: {
                 create: data.slides.map((slide, index) => ({
                   ...slide,

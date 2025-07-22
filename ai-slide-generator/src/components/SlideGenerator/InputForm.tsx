@@ -24,7 +24,8 @@ export default function InputForm({ input, setInput }: Props) {
         </label>
         <textarea
             id="slide-input"
-            className="w-full min-h-[150px] p-4 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full min-h-[150px] p-4 border border-gray-300 rounded-md bg-white 
+                text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             placeholder="Enter your presentation topic or paste content..."
             value={input}
             onChange={handleChange}

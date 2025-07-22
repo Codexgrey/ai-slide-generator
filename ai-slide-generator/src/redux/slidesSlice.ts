@@ -20,7 +20,7 @@ const initialState: SlidesState = {
 interface GenerateSlidesParams {
   topic: string;
   numSlides: number;
-  includeImages: boolean;
+  numSlidesWithImages: number;
   theme: Theme;
 }
 
@@ -54,6 +54,9 @@ const slidesSlice = createSlice({
     setSlides(state, action: PayloadAction<Slide[]>) {
       state.slides = action.payload;
     },
+     setCurrentPresentation(state, action: PayloadAction<Presentation>) {
+      state.currentPresentation = action.payload;
+    },
     updateSlide(state, action: PayloadAction<{ index: number; slide: Partial<Slide> }>) {
       const { index, slide } = action.payload;
       state.slides[index] = { ...state.slides[index], ...slide };
@@ -75,18 +78,14 @@ const slidesSlice = createSlice({
       })
       .addCase(generateSlides.fulfilled, (state, action) => {
         const presentation = action.payload;
-
-        // converting dates to ISO strings to prevent Redux warnings
         state.currentPresentation = {
           ...presentation,
           createdAt: new Date(presentation.createdAt).toISOString(),
           updatedAt: new Date(presentation.updatedAt).toISOString(),
         };
-
         state.slides = presentation.slides;
         state.isGenerating = false;
-
-        console.log('🔥[generateSlides.fulfilled] Stored theme: ', presentation.theme);
+        console.log('🔥[generateSlides.fulfilled] Stored theme: ', presentation.themeId);
       })
       .addCase(generateSlides.rejected, (state) => {
         state.isGenerating = false;
@@ -96,6 +95,7 @@ const slidesSlice = createSlice({
 
 export const {
   setSlides,
+  setCurrentPresentation,
   updateSlide,
   setActiveSlideIndex,
   resetSlides,
