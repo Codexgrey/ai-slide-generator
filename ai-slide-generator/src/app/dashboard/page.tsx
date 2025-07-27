@@ -22,7 +22,7 @@ export default function DashboardPage() {
       <p className="text-lg mb-2">
         Hello, <strong>{session.user.name || session.user.email}</strong> 👋
       </p>
-      <p className="text-gray-500 mb-6">You&apos;re now authenticated!</p>
+      <p className="text-gray-500 mb-6">You&apos;re now authenticated &#128640;!</p>
 
       <div className="space-y-4">
         <button
