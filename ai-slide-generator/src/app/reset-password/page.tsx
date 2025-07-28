@@ -42,8 +42,12 @@ export default function ResetPasswordPage() {
       if (!res.ok) throw new Error(json.message || 'Something went wrong');
 
       setSuccess(true);
-    } catch (err: any) {
-      setError(err.message || 'Unexpected error');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Unexpected error');
+      } else {
+        setError('Unexpected error');
+      }
     } finally {
       setLoading(false);
     }
@@ -101,7 +105,8 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-[200px] bg-blue-600 text-white py-2 rounded-md hover:bg-blue-800"
+              className="w-[200px] bg-blue-600 text-white py-2 rounded-md hover:bg-blue-800
+              disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Resetting...' : 'Reset Password'}
             </button>

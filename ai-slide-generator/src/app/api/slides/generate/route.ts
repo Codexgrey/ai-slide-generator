@@ -3,12 +3,13 @@ import { fetchImageFromPrompt } from '@/lib/images/fetchImageFromPrompt';
 import { savePresentationToDB } from '@/lib/slides/saveSlides';
 import type { SlideInput } from '@/lib/slides/saveSlides';
 import { validateSlides } from '@/lib/slides/validateSlides';
+import type { Slide } from '@/types/slide';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 
 
 export async function POST(req: Request) {
-    // Get the session to access the user ID
+    // get the session to access the userId
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
         return new Response(
@@ -77,10 +78,10 @@ export async function POST(req: Request) {
             description: `Auto-generated on ${new Date().toLocaleDateString()}`,
             slides: validatedSlides,
             theme,
-            userId: session.user.id, // use the session user ID
+            userId: session.user.id, 
         });
 
-        const serializedSlides = (saved.slides || []).map((slide) => ({
+        const serializedSlides = (saved.slides || []).map((slide: Slide) => ({
             ...slide,
             content: Array.isArray(slide.content)
                 ? slide.content

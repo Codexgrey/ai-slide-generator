@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function ForgotPasswordPage() {
     setError('');
 
     try {
+      setLoading(true);
       const res = await fetch('/api/auth/reset/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -31,6 +33,8 @@ export default function ForgotPasswordPage() {
     } catch (err: any) {
       console.error('[RESET REQUEST ERROR]', err);
       setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,9 +67,11 @@ export default function ForgotPasswordPage() {
               />
               <button
                 type="submit"
-                className="w-[200px] bg-blue-600 text-white py-2 rounded-md hover:bg-blue-800"
+                disabled={loading}
+                className="w-[200px] bg-blue-600 text-white py-2 rounded-md hover:bg-blue-800
+                disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Reset Link
+                {loading ? 'Sending...' : 'Send Reset Link'}
               </button>
             </form>
           </>
