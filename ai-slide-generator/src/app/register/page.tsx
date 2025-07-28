@@ -11,9 +11,12 @@ export default function RegisterPage() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
     const res = await fetch('/api/auth/register', {
       method: 'POST',
@@ -24,6 +27,7 @@ export default function RegisterPage() {
     const data = await res.json();
 
     if (!res.ok) {
+      setLoading(false);
       setError(data.error || 'Something went wrong');
       return;
     }
@@ -35,6 +39,7 @@ export default function RegisterPage() {
       redirect: false,
     });
 
+    setLoading(false);
     router.push('/dashboard');
   };
 
@@ -74,9 +79,11 @@ export default function RegisterPage() {
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          disabled={loading}
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700
+          disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
         >
-          Register
+          {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
 
