@@ -17,6 +17,8 @@ export default function CreatePage() {
   const [numSlidesWithImages, setNumSlidesWithImages] = useState(0);
   const [style, setStyle] = useState('simple');
   const [loading, setLoading] = useState(false);
+  const [loadingDashboard, setLoadingDashboard] = useState(false);
+  const [loadingHistory, setLoadingHistory] = useState(false);
   const [showInputToast, setShowInputToast] = useState(false);
 
   const router = useRouter();
@@ -70,9 +72,43 @@ export default function CreatePage() {
       )}
 
       <main className="min-h-screen bg-white text-gray-900">
-        <header className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h1 className="text-2xl font-bold">Create New Presentation</h1>
+        <header className="px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            {/* Buttons group */}
+            <div className="flex gap-4">
+              <button
+                onClick={() => {
+                  setLoadingDashboard(true);
+                  router.push('/dashboard')}
+                } 
+                disabled={loadingDashboard}
+                className="inline-flex items-center text-gray-600 hover:text-black transition 
+                hover:bg-gray-200 px-4 py-2 rounded-md shadow-sm border border-gray-300
+                disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                { loadingDashboard ? 'Loading...' : 'Dashboard'}
+              </button>
+
+              <button
+                onClick={() => {
+                  setLoadingHistory(true);
+                  router.push('/history')}
+                }
+                disabled={loadingHistory}
+                className="inline-flex items-center text-gray-600 hover:text-black transition 
+                hover:bg-gray-200 px-4 py-2 rounded-md shadow-sm border border-gray-300
+                disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {loadingHistory  ? 'Loading...' : 'History' }
+              </button>
+            </div>
+
+            <div className="absolute left-1/2 transform -translate-x-1/2">
+              <h1 className="text-2xl font-bold">Create New Presentation</h1>
+            </div>
+          </div>
         </header>
+
 
         <section className="max-w-4xl mx-auto p-4 space-y-6">
           <InputForm input={input} setInput={setInput} />
