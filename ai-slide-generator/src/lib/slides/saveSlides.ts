@@ -13,6 +13,7 @@ type SaveInput = {
     description?: string;
     slides: SlideInput[];
     theme: Theme;
+    userId: string;
 };
 
 export async function savePresentationToDB(data: SaveInput) {
@@ -21,7 +22,7 @@ export async function savePresentationToDB(data: SaveInput) {
 
         const presentation = await prisma.presentation.create({
             data: {
-              userId: 'test-user-id',  // testing - replaced with real session ID later
+              userId: data.userId,  
               title: data.title,
               description: data.description ?? '',
               themeId: data.theme.id,

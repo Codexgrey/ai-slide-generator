@@ -1,20 +1,28 @@
-# --- Base Stage ---
-FROM node:20-alpine AS base
+# Development Dockerfile
+FROM node:20-alpine
+
+# Install necessary tools
+RUN apk add --no-cache netcat-openbsd
+
 WORKDIR /app
+
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# --- Builder Stage (generates Prisma client) ---
-FROM base AS prisma-builder
+# Copy prisma schema
 COPY prisma ./prisma
+
+# Generate Prisma client
 RUN npx prisma generate
 
-# --- Dev Stage ---
-FROM base AS dev
-WORKDIR /app
-COPY --from=prisma-builder /app/node_modules ./node_modules
-COPY --from=prisma-builder /app/prisma ./prisma
+# Copy the rest of the application
 COPY . .
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
 
+# Expose only the app port (studio port handled by docker-compose)
+EXPOSE 3000
+
+# Default command (can be overridden)
+CMD ["npm", "run", "dev"]

@@ -4,16 +4,21 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
     const res = await fetch('/api/auth/register', {
       method: 'POST',
@@ -24,6 +29,7 @@ export default function RegisterPage() {
     const data = await res.json();
 
     if (!res.ok) {
+      setLoading(false);
       setError(data.error || 'Something went wrong');
       return;
     }
@@ -35,6 +41,7 @@ export default function RegisterPage() {
       redirect: false,
     });
 
+    setLoading(false);
     router.push('/dashboard');
   };
 
@@ -61,22 +68,32 @@ export default function RegisterPage() {
           className="w-full border px-4 py-2 rounded"
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full border px-4 py-2 rounded"
-        />
+        <div className="relative w-full">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full border px-4 py-2 pr-10 rounded"
+          />
+          <span
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500 hover:text-black"
+          >
+            {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+          </span>
+        </div>
 
         {error && <p className="text-red-600 text-sm">{error}</p>}
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          disabled={loading}
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700
+          disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
         >
-          Register
+          {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
 
